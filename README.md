@@ -1,6 +1,67 @@
-# RAG Application
+# RAG System with Redis Vector Store
 
-This is a Retrieval-Augmented Generation (RAG) application with a Python backend and React frontend.
+## Redis Setup
+
+### Using Docker
+
+To set up Redis with vector similarity search capabilities, run the following command:
+
+```bash
+docker run -d --name redis-stack \
+    -p 6379:6379 -p 8001:8001 \
+    -e REDIS_ARGS="--requirepass mypassword" \
+    redis/redis-stack:latest
+```
+
+This command:
+- Creates a Redis Stack container with vector search capabilities
+- Exposes Redis on port 6379
+- Exposes RedisInsight (GUI) on port 8001
+- Sets a password for security
+
+### Environment Configuration
+
+Create a `.env` file with the following variables:
+
+```env
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_PASSWORD=mypassword
+OPENAI_API_KEY=your_openai_api_key
+```
+
+## Usage
+
+1. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+2. Process and store documents:
+```python
+from redis_embedding_store import store_document
+
+# Store a document
+store_document('path/to/your/document.txt')
+```
+
+3. Access RedisInsight:
+- Open http://localhost:8001 in your browser
+- Connect using the configured password
+
+## Features
+
+- Document chunking with configurable size and overlap
+- Vector embeddings using OpenAI's text-embedding-3-small model
+- Vector similarity search using Redis Stack
+- Efficient document storage and retrieval
+
+## Notes
+
+- The system uses Redis Stack which includes RediSearch for vector similarity operations
+- Default chunk size is 500 tokens with 50 token overlap
+- Embeddings are 1536-dimensional vectors
+- Vector similarity uses cosine distance metric
 
 ## Project Structure
 
@@ -42,7 +103,7 @@ This is a Retrieval-Augmented Generation (RAG) application with a Python backend
 
 4. Run the backend server:
    ```bash
-   python rag_api.py
+   python redis_rag_api.py
    ```
 
 ## Frontend Setup
