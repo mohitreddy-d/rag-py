@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "properties": {
+    "field1": {
+      "type": "string",
+      "description": "First field of type string"
+    },
+    "field2": {
+      "type": "string",
+      "description": "Second field of type string"
+    }
+  },
+  "required": ["field1", "field2"]
+}
